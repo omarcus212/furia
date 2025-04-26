@@ -13,8 +13,8 @@ routers.post('/login', erroBodyLogin, userController.login)
 routers.get('/register', userController.getRegister)
 routers.post('/register', erroBodyRegister, userController.register)
 
+routers.post('/chatbot', isLoggedin, chatbot.handleChatbot)
 
-// routers.get('/chatbot', isLoggedin, chatbot.chatbot)
 routers.get('/playgames', isLoggedin, playController.getPlayGames)
 routers.post('/playgames', erroBodyGame, isLoggedin, playController.sendPlayGames)
 routers.put('/playgames/:id', erroBodyGame, isLoggedin, playController.updatePlayGames)

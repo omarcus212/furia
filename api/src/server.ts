@@ -6,6 +6,7 @@ const cors = require('cors')
 server.use(cors());
 server.use(express.json());
 
+
 server.use('/api', routers);
 
 server.listen(3000, () => {
