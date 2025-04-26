@@ -14,48 +14,44 @@ export const getPlayGames = async (req: Request, res: Response) => {
 
         } else {
 
-            return sendSuccess(res, "Games found", data);
+            return sendSuccess(res, "Games found!", data);
         }
 
     } catch (error) {
-        return sendError(res, "Error searching for Games.", error);
+        return sendError(res, "Error searching for Games!", error);
 
     }
 }
 
 export const sendPlayGames = async (req: Request<Game>, res: Response) => {
-    const { game,
-        event,
-        first_team,
-        seconde_team,
-        scoreboard_first_team,
-        scoreboard_seconde_team,
-        date } = req.body
 
-    const gamesEsport = await playModel.createGame(game, event, first_team, seconde_team, scoreboard_first_team, scoreboard_seconde_team, date)
-    return sendSuccess(res, 'Game registered successfully', gamesEsport)
+    try {
+        const gamesEsport = await playModel.createGame(req.body)
+        return sendSuccess(res, 'Game registered successfully!', gamesEsport)
+    } catch (error) {
+        return sendError(res, 'Game not registered!')
+    }
+
 }
 
 export const updatePlayGames = async (req: Request<Game>, res: Response) => {
-
-    const ID = req.params.id
-    const { game,
-        event,
-        first_team,
-        seconde_team,
-        scoreboard_first_team,
-        scoreboard_seconde_team,
-        date } = req.body
-
-    const gamesEsport = await playModel.updateGame(ID, game, event, first_team, seconde_team, scoreboard_first_team, scoreboard_seconde_team, date)
-    return sendSuccess(res, 'Game upated successfully', gamesEsport)
-
+    try {
+        const ID = req.params.id
+        const gamesEsport = await playModel.updateGame(ID, req.body)
+        return sendSuccess(res, 'Game updated successfully!', gamesEsport)
+    } catch (error) {
+        return sendError(res, 'Game not updated!')
+    }
 }
 
 export const deletePlayGames = async (req: Request, res: Response) => {
 
-    const ID = req.params.id
-    const gamesEsport = await playModel.deleteGame(ID)
-    return sendSuccess(res, 'Game deleted successfully')
+    try {
+        const ID = req.params.id
+        const gamesEsport = await playModel.deleteGame(ID)
+        return sendSuccess(res, 'Game deleted successfully!')
+    } catch (error) {
+        return sendError(res, 'Game not deleted!')
+    }
 
 }

@@ -7,6 +7,7 @@ import { sendError, sendSuccess } from '../../helpers/resUser'
 import { UserLogin, UserRegister } from '../../interface/users'
 
 const userModel = require('../../models/usersLogin/user')
+const profileModel = require('../../models/profileModel/profile')
 const key_jwt = process.env.JWT_SECRET
 
 export const login = async (req: Request<UserLogin>, res: Response): Promise<Response> => {
@@ -49,14 +50,17 @@ export const login = async (req: Request<UserLogin>, res: Response): Promise<Res
 
 }
 
-
 export const register = async (req: Request, res: Response): Promise<Response> => {
-
-    const { username, email, password } = req.body
     const saltRounds = 5;
-    const passHash = await bcrypt.hash(password, saltRounds)
-    const data = await userModel.setRegister(username, email, passHash)
-    return sendSuccess(res, 'User registered successfully', data)
+    try {
+        const passHash = await bcrypt.hash(req.body['password'], saltRounds)
+        const data = await userModel.setRegister(req.body)
+        const profile = await profileModel.setProfile(data[0].id, data[0].username)
+        return sendSuccess(res, 'User registered successfully', data)
+    } catch (error) {
+        return sendError(res, 'user cannot be registered', error)
+    }
+
 
 }
 
@@ -80,11 +84,3 @@ export const getRegister = async (req: Request, res: Response<UserRegister>): Pr
     }
 }
 
-export const getProfile = (req: Request, res: Response) => {
-    if (!req.user) {
-        return sendError(res, 'Unauthorized');
-    }
-    const { id, email, username } = req.user;
-
-    return sendSuccess(res, 'User found', { id, email, username });
-};
