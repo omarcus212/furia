@@ -43,7 +43,7 @@ export const updatePost = async (req: Request<Post>, res: Response) => {
 export const deletePost = async (req: Request, res: Response) => {
 
     try {
-        const ID = req.params.id_post
+        const ID = req.params.post_id
         const profileData = await postModel.deletePost(ID, req.user?.id)
         return sendSuccess(res, 'Post deleted successfully!', profileData)
     } catch (error) {

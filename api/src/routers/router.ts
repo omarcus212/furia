@@ -4,6 +4,8 @@ import { isLoggedin } from '../middleware/users/user.auth'
 import { erroBodyGame } from '../middleware/games/gamesBody'
 import { erroBodyPostProfile, erroBodyProfile } from '../middleware/profile/profileBody'
 import { verifyPostOwnership } from '../middleware/profile/authVerify'
+import { erroBodyComment } from '../middleware/comment/comment'
+import { erroBodySuggestion } from '../middleware/suggestion/suggestion'
 
 const userController = require('../controllers/userController/user')
 const playController = require('../controllers/playController/playGames')
@@ -12,6 +14,8 @@ const profileController = require('../controllers/profileController/profile')
 const postProfileController = require('../controllers/profileController/post')
 const feedController = require('../controllers/feedController/feed')
 const likeController = require('../controllers/likeController/like')
+const commenteController = require('../controllers/commentController/comment')
+const suggestionController = require('../controllers/suggestionController/suggestion')
 
 const routers = Router();
 
@@ -27,10 +31,11 @@ routers.put('/playgames/:id', erroBodyGame, isLoggedin, playController.updatePla
 routers.delete('/playgames/:id', isLoggedin, playController.deletePlayGames)
 
 routers.get('/profile/:user_id', isLoggedin, profileController.getProfile)
-routers.get('/profile/liked', isLoggedin, profileController.getPostLiked)
-routers.get('/profile/commented', isLoggedin, profileController.getPostCommented)
 routers.put('/profile', erroBodyProfile, isLoggedin, profileController.updateProfile)
 routers.delete('/profile', isLoggedin, profileController.deleteProfile)
+
+routers.get('/profile/post/liked', isLoggedin, profileController.getPostLiked)
+routers.get('/profile/post/commented', isLoggedin, profileController.getPostCommented)
 
 routers.get('/profile/post/:id', isLoggedin, postProfileController.getPost)
 routers.post('/profile/post', isLoggedin, verifyPostOwnership, erroBodyPostProfile, postProfileController.setPost)
@@ -39,8 +44,13 @@ routers.delete('/profile/post/delete/:post_id', isLoggedin, verifyPostOwnership,
 
 routers.get('/feed', isLoggedin, feedController.getFeed)
 
-// routers.post('/liked/:post_id', isLoggedin, likeController.setLike)
-// routers.post('/post/commented/:id', isLoggedin, feedController.getFeed)
-// routers.delete('/post/commented/delete/:id', isLoggedin, feedController.getFeed)
+routers.post('/liked/:post_id', isLoggedin, likeController.setLike)
+routers.get('/commented/:post_id', isLoggedin, commenteController.getComment)
+routers.post('/commented/:post_id', isLoggedin, erroBodyComment, commenteController.setComment)
+routers.delete('/commented/:post_id', isLoggedin, commenteController.deleteComment)
+
+routers.get('/suggestion', isLoggedin, suggestionController.getSuggestion)
+routers.post('/suggestion', isLoggedin, erroBodySuggestion, suggestionController.setSuggestion)
+routers.delete('/suggestion/:id', isLoggedin, suggestionController.deleteSuggestion)
 
 export default routers;

@@ -50,6 +50,7 @@ export const getProfilePost = (ID: number): Promise<any> => {
 
                         if (row.comment_id) {
                             postsMap.get(row.post_id).comments.push({
+                                id_comment: row.comment_id,
                                 username: row.commenter_username,
                                 comment: row.comment_text,
                                 date: row.date_comment
@@ -87,7 +88,7 @@ export const setPost = (user_id: number, content: string) => {
 export const updatePost = (ID: number, user_id: number, content: string) => {
     return new Promise((accept, reject) => {
         db.query(
-            'UPDATE posts SET content = ? WHERE user_id = ? and id = ?;',
+            'UPDATE posts SET content = ? WHERE user_id = ? AND id = ?;',
             [content, user_id, ID],
             (error, result) => {
                 if (error) {
@@ -102,7 +103,7 @@ export const updatePost = (ID: number, user_id: number, content: string) => {
 
 export const deletePost = (ID: number, user_id: number): Promise<any> => {
     return new Promise((accept, reject) => {
-        db.query('DELETE FROM posts where id = ? and user_id = ?;', [ID, user_id],
+        db.query('DELETE FROM posts WHERE id = ? AND user_id = ?;', [ID, user_id],
             (error: any, result: any) => {
                 if (error) { reject(error) }
                 accept(result)
@@ -112,22 +113,28 @@ export const deletePost = (ID: number, user_id: number): Promise<any> => {
 
 export const getPostCommented = (ID: number): Promise<any> => {
     return new Promise((accept, reject) => {
-        db.query(`
-                SELECT 
+        db.query(`SELECT 
             p.id AS post_id,
             p.content AS post_content,
             p.image_url,
             p.post_date,
-            c.id AS comment_id,
+            pu_comment.username AS commenter_username,
+            pu_comment.users_id AS commenter_user_id,
             c.comment_user AS comment_text,
-            c.date_comment
-            FROM 
+            c.date_comment,
+            pu_post.username AS post_author_username,
+            pu_post.users_id AS post_author_user_id
+        FROM 
             comments c
-            INNER JOIN 
+        INNER JOIN 
             posts p ON p.id = c.post_id
-            WHERE 
+        INNER JOIN 
+            profile_users pu_comment ON c.users_id = pu_comment.users_id
+        INNER JOIN 
+            profile_users pu_post ON p.user_id = pu_post.users_id
+        WHERE 
             c.users_id = ?
-            ORDER BY 
+        ORDER BY 
             c.date_comment DESC;
             `, [ID],
             (error: any, result: any) => {
@@ -140,19 +147,22 @@ export const getPostCommented = (ID: number): Promise<any> => {
 export const getPostLiked = (ID: number): Promise<any> => {
     return new Promise((accept, reject) => {
         db.query(`
-        SELECT 
+            SELECT 
+        pu.username,
+        pu.users_id AS id_user_post,
         p.id AS post_id,
         p.content AS post_content,
-        p.image_url,
         p.post_date
-        FROM 
+    FROM 
         likes l
-        INNER JOIN 
+    INNER JOIN 
         posts p ON p.id = l.post_id
-        WHERE 
-        l.users_id =?
-        ORDER BY 
-        l.date_likes DESC;
+    INNER JOIN 
+        profile_users pu ON p.user_id = pu.users_id
+    WHERE 
+        l.users_id = ?
+    ORDER BY 
+        l.date_likes DESC;;
     `, [ID],
             (error: any, result: any) => {
                 if (error) { reject(error) }
