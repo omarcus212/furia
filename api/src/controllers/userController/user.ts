@@ -38,7 +38,7 @@ export const login = async (req: Request<UserLogin>, res: Response): Promise<Res
         const token = jwt.sign(
             userPayload,
             key_jwt,
-            { expiresIn: '24h' }
+            { expiresIn: '5d' }
         );
 
         return sendSuccess(res, token)
@@ -54,7 +54,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
     const saltRounds = 5;
     try {
         const passHash = await bcrypt.hash(req.body['password'], saltRounds)
-        const data = await userModel.setRegister(req.body)
+        const data = await userModel.setRegister(req.body, passHash)
         const profile = await profileModel.setProfile(data[0].id, data[0].username)
         return sendSuccess(res, 'User registered successfully', data)
     } catch (error) {

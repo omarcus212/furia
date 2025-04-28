@@ -12,7 +12,6 @@ export const getRegister = (): Promise<any> => {
     })
 }
 
-
 export const getUserID = (email: string): Promise<any> => {
     return new Promise((accept, reject) => {
         db.query('select * from users_registers where email=?', [email],
@@ -23,10 +22,10 @@ export const getUserID = (email: string): Promise<any> => {
     })
 }
 
-export const setRegister = (user: UserRegister): Promise<any> => {
+export const setRegister = (user: UserRegister, passHash: string): Promise<any> => {
     return new Promise((accept, reject) => {
         db.query('insert into users_registers (username, email, password) values (?,?,?)',
-            [user.username, user.email, user.password], (error: any, result: any) => {
+            [user.username, user.email, passHash], (error: any, result: any) => {
                 if (error) {
                     reject(error)
                 }

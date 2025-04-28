@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { sendError, sendSuccess } from '../../helpers/resUser';
 import { Game } from 'interface/game';
+
 const playModel = require('../../models/playModel/play')
 
 export const getPlayGames = async (req: Request, res: Response) => {
