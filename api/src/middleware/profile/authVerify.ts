@@ -15,7 +15,7 @@ export const verifyPostOwnership: RequestHandler = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-        res.status(401).json({ message: 'Token não fornecido' });
+        res.status(401).json({ message: 'Token not provided' });
         return
     }
 
@@ -23,7 +23,7 @@ export const verifyPostOwnership: RequestHandler = (req, res, next) => {
 
     jwt.verify(token, jwtSecret, (error, decoded: any) => {
         if (error) {
-            res.status(401).json({ message: 'Token inválido' })
+            res.status(401).json({ message: 'Token invalid' })
             return
         }
 

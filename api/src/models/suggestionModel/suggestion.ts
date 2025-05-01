@@ -2,7 +2,7 @@ import db from '../../db/dbConnect'
 
 export const getsuggestion = (): Promise<any> => {
     return new Promise((accept, reject) => {
-        db.query('SELECT * FROM suggestion;',
+        db.query('SELECT * FROM suggestion order by id desc;',
             (error: any, result: any) => {
                 if (error) { reject(error) }
                 accept(result)

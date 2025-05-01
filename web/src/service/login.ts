@@ -1,4 +1,4 @@
-import api from "./api";
+import api from "./apiConfig";
 
 export const login = async (email: string, password: string) => {
 
@@ -8,8 +8,8 @@ export const login = async (email: string, password: string) => {
             password,
         });
 
-        const token = response.data.message;;
-        localStorage.setItem('tokenJwt', token);
+        const token = response.data.message;
+        localStorage.setItem('token', token);
         return token;
     } catch (error) {
         return null;

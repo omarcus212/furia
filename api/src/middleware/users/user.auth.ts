@@ -14,22 +14,22 @@ declare global {
 }
 
 export const isLoggedin = (req: Request, res: Response, next: NextFunction): void => {
-    const authHeader = req.headers['authorization'];
+    const authHeader = req.headers.authorization;
     const token = authHeader?.split(' ')[1];
 
     if (!token) {
-        res.status(401).json({ error: 'Token não fornecido' });
+        res.status(401).json({ error: 'Token not provided' });
         return;
     }
 
     if (!jwtSecret) {
-        res.status(500).json({ error: 'JWT_SECRET não definido' });
+        res.status(500).json({ error: 'JWT_SECRET undefined' });
         return;
     }
 
     jwt.verify(token, jwtSecret, (err, decoded) => {
         if (err || !decoded) {
-            res.status(403).json({ error: 'Token inválido ou expirado' });
+            res.status(403).json({ error: 'Token not provided or expirado expired' });
             return;
         }
 

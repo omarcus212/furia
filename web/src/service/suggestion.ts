@@ -1,4 +1,4 @@
-import api from "./api";
+import api from "./apiConfig";
 
 export const setSuggestion = async (text: string) => {
 
@@ -9,8 +9,7 @@ export const setSuggestion = async (text: string) => {
             throw new Error("Token não encontrado.");
         }
 
-        const response = await api.post(
-            '/suggestion',
+        const response = await api.post('/suggestion',
             {
                 text: text,
             },

@@ -30,7 +30,9 @@ routers.post('/playgames', erroBodyGame, isLoggedin, playController.sendPlayGame
 routers.put('/playgames/:id', erroBodyGame, isLoggedin, playController.updatePlayGames)
 routers.delete('/playgames/:id', isLoggedin, playController.deletePlayGames)
 
-routers.get('/profile/:user_id', isLoggedin, profileController.getProfile)
+
+routers.get('/myprofile', isLoggedin, verifyPostOwnership, profileController.getMyProfile)
+routers.get('/profile/:user_name', isLoggedin, profileController.getProfile)
 routers.put('/profile', erroBodyProfile, isLoggedin, profileController.updateProfile)
 routers.delete('/profile', isLoggedin, profileController.deleteProfile)
 
@@ -44,13 +46,13 @@ routers.delete('/profile/post/delete/:post_id', isLoggedin, verifyPostOwnership,
 
 routers.get('/feed', isLoggedin, feedController.getFeed)
 
-routers.post('/liked/:post_id', isLoggedin, likeController.setLike)
-routers.get('/commented/:post_id', isLoggedin, commenteController.getComment)
-routers.post('/commented/:post_id', isLoggedin, erroBodyComment, commenteController.setComment)
-routers.delete('/commented/:post_id', isLoggedin, commenteController.deleteComment)
+routers.post('/liked/:post_id', isLoggedin, verifyPostOwnership, likeController.setLike)
+routers.get('/commented/:post_id', isLoggedin, verifyPostOwnership, commenteController.getComment)
+routers.post('/commented/:post_id', isLoggedin, verifyPostOwnership, erroBodyComment, commenteController.setComment)
+routers.delete('/commented/:post_id', isLoggedin, verifyPostOwnership, commenteController.deleteComment)
 
-routers.get('/suggestion', isLoggedin, suggestionController.getSuggestion)
-routers.post('/suggestion', isLoggedin, erroBodySuggestion, suggestionController.setSuggestion)
+routers.get('/suggestion', isLoggedin, verifyPostOwnership, suggestionController.getSuggestion)
+routers.post('/suggestion', isLoggedin, verifyPostOwnership, erroBodySuggestion, suggestionController.setSuggestion)
 routers.delete('/suggestion/:id', isLoggedin, suggestionController.deleteSuggestion)
 
 export default routers;

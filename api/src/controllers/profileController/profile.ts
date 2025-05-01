@@ -8,8 +8,19 @@ const postModel = require('../../models/profileModel/postProfile')
 export const getProfile = async (req: Request, res: Response) => {
 
     try {
-        const ID = req.params.user_id
-        const data = await profileModel.getProfile(ID);
+        const username = req.params.user_name
+        const data = await profileModel.getProfile(username);
+        return sendSuccess(res, 'Profile found!', data)
+    } catch (error) {
+        return sendError(res, 'Profile not found!', error)
+    }
+
+}
+
+export const getMyProfile = async (req: Request, res: Response) => {
+
+    try {
+        const data = await profileModel.getProfile(req.user?.username);
         return sendSuccess(res, 'Profile found!', data)
     } catch (error) {
         return sendError(res, 'Profile not found!', error)

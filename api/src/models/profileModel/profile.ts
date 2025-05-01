@@ -1,9 +1,9 @@
 import { Profile } from 'interface/profile'
 import db from '../../db/dbConnect'
 
-export const getProfile = (ID: number): Promise<any> => {
+export const getProfile = (username: string): Promise<any> => {
     return new Promise((accept, reject) => {
-        db.query('SELECT * from profile_users where id = ?', [ID],
+        db.query('SELECT * from profile_users where username = ?', [username],
             (error: any, result: any) => {
                 if (error) { reject(error) }
                 accept(result)
@@ -11,11 +11,11 @@ export const getProfile = (ID: number): Promise<any> => {
     });
 }
 
-export const setProfile = (users_id: number, username: string) => {
+export const setProfile = (users_id: number, username: string, img: string) => {
     return new Promise((accept, reject) => {
         db.query(
-            'INSERT INTO profile_users (users_id, username) VALUES (?,?);',
-            [users_id, username],
+            'INSERT INTO profile_users (users_id, username, profile_photo_url) VALUES (?,?,?);',
+            [users_id, username, img],
             (error, result) => {
                 if (error) {
                     reject(error);

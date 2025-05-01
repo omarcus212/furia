@@ -2,31 +2,7 @@ import db from '../../db/dbConnect'
 
 export const getProfilePost = (ID: number): Promise<any> => {
     return new Promise((accept, reject) => {
-        db.query(`
-            SELECT 
-                p.id AS post_id,
-                p.user_id AS post_user_id,
-                p.content AS post_content,
-                p.image_url,
-                p.post_date,
-                (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.id) AS total_likes,
-                c.id AS comment_id,
-                commenter.username AS commenter_username,
-                c.comment_user AS comment_text,
-                c.date_comment
-            FROM 
-                profile_users pu
-            LEFT JOIN 
-                posts p ON p.user_id = pu.users_id
-            LEFT JOIN 
-                comments c ON c.post_id = p.id
-            LEFT JOIN 
-                profile_users commenter ON commenter.users_id = c.users_id
-            WHERE 
-                pu.users_id = ?
-            ORDER BY 
-                p.post_date DESC, c.date_comment ASC
-        `, [ID], (error: any, results: any[]) => {
+        db.query(`SELECT * FROM vw_user_posts_comments_likes WHERE post_user_id = ?; `, [ID], (error: any, results: any[]) => {
             if (error) {
                 reject(error);
             } else {
@@ -42,7 +18,10 @@ export const getProfilePost = (ID: number): Promise<any> => {
                             postsMap.set(row.post_id, {
                                 post_id: row.post_id,
                                 post_user_id: row.post_user_id,
+                                post_username: row.post_username,
                                 post_content: row.post_content,
+                                image_url: row.image_url,
+                                post_date: row.post_date,
                                 total_likes: row.total_likes,
                                 comments: []
                             });
@@ -59,14 +38,12 @@ export const getProfilePost = (ID: number): Promise<any> => {
                     }
                 });
 
-                const response = {
-                    posts: Array.from(postsMap.values())
-                };
-
+                const response = Array.from(postsMap.values());
                 accept(response);
             }
         });
     });
+
 }
 
 export const setPost = (user_id: number, content: string) => {
@@ -113,30 +90,7 @@ export const deletePost = (ID: number, user_id: number): Promise<any> => {
 
 export const getPostCommented = (ID: number): Promise<any> => {
     return new Promise((accept, reject) => {
-        db.query(`SELECT 
-            p.id AS post_id,
-            p.content AS post_content,
-            p.image_url,
-            p.post_date,
-            pu_comment.username AS commenter_username,
-            pu_comment.users_id AS commenter_user_id,
-            c.comment_user AS comment_text,
-            c.date_comment,
-            pu_post.username AS post_author_username,
-            pu_post.users_id AS post_author_user_id
-        FROM 
-            comments c
-        INNER JOIN 
-            posts p ON p.id = c.post_id
-        INNER JOIN 
-            profile_users pu_comment ON c.users_id = pu_comment.users_id
-        INNER JOIN 
-            profile_users pu_post ON p.user_id = pu_post.users_id
-        WHERE 
-            c.users_id = ?
-        ORDER BY 
-            c.date_comment DESC;
-            `, [ID],
+        db.query(`select * from vw_post_comments_likes WHERE commenter_user_id =? ;`, [ID],
             (error: any, result: any) => {
                 if (error) { reject(error) }
                 accept(result)
@@ -146,24 +100,7 @@ export const getPostCommented = (ID: number): Promise<any> => {
 
 export const getPostLiked = (ID: number): Promise<any> => {
     return new Promise((accept, reject) => {
-        db.query(`
-            SELECT 
-        pu.username,
-        pu.users_id AS id_user_post,
-        p.id AS post_id,
-        p.content AS post_content,
-        p.post_date
-    FROM 
-        likes l
-    INNER JOIN 
-        posts p ON p.id = l.post_id
-    INNER JOIN 
-        profile_users pu ON p.user_id = pu.users_id
-    WHERE 
-        l.users_id = ?
-    ORDER BY 
-        l.date_likes DESC;;
-    `, [ID],
+        db.query(`SELECT * FROM vw_liked_posts WHERE user_who_liked =? ; `, [ID],
             (error: any, result: any) => {
                 if (error) { reject(error) }
                 accept(result)

@@ -70,7 +70,7 @@ const PageLogin: React.FC = () => {
           const token = await login(emailUserInput, passwordUserInput);
 
           if (token) {
-            navigate('/games');
+            navigate('/home');
           } else {
             Swal.fire({
             icon: 'error',
@@ -91,7 +91,7 @@ const PageLogin: React.FC = () => {
             imgAlt="loading!" 
             width="500px" 
             height="550px"
-            className="flex h-full justify-center items-center"
+            className="flex h-full justify-center items-center hidden md:block"
             />
 
            </Content>

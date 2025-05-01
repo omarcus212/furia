@@ -3,6 +3,8 @@ import PageLogin from "../pages/login";
 import PageRegister from "../pages/register";
 import PrivateRoute from "./PrivateRoute";
 import PageGames from "../pages/GamesTime";
+import PageMyProfile from "../pages/myProfile";
+import PageHome from "../pages/Feed";
 
 const Routing: React.FC = () => {
 
@@ -12,9 +14,23 @@ const Routing: React.FC = () => {
                      <Route path="/" element={<Navigate to="/login" replace />} />
                      <Route index path={'/login'}element={<PageLogin />}/>
                      <Route path={'/register'}element={<PageRegister />}/>
+                     
                      <Route path='/games' element={<PrivateRoute>
                         <PageGames />
                      </PrivateRoute>} />
+
+                      <Route path='/myprofile' element={<PrivateRoute>
+                        <PageMyProfile />
+                     </PrivateRoute>} />
+
+                      <Route path='/profile/:username' element={<PrivateRoute>
+                        <PageMyProfile />
+                     </PrivateRoute>} />
+
+                      <Route path='/home' element={<PrivateRoute>
+                        <PageHome />
+                     </PrivateRoute>} />
+
                     </Routes>   
         </BrowserRouter>
 

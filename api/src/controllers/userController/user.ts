@@ -9,6 +9,7 @@ import { UserLogin, UserRegister } from '../../interface/users'
 const userModel = require('../../models/usersLogin/user')
 const profileModel = require('../../models/profileModel/profile')
 const key_jwt = process.env.JWT_SECRET
+const img = 'https://firebasestorage.googleapis.com/v0/b/callofduty-ed1bf.appspot.com/o/nopicture.jpg?alt=media&token=48da8902-b944-4238-8c10-b440b6b1ba47'
 
 export const login = async (req: Request<UserLogin>, res: Response): Promise<Response> => {
 
@@ -20,10 +21,9 @@ export const login = async (req: Request<UserLogin>, res: Response): Promise<Res
         return sendError(res, 'JWT_SECRET not set');
     }
 
-    if (!userID) {
+    if (!userID[0]) {
         return sendError(res, 'User not found');
     }
-
     const isMatch = await bcrypt.compare(password, userID[0].password);
 
     if (isMatch) {
@@ -55,7 +55,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
     try {
         const passHash = await bcrypt.hash(req.body['password'], saltRounds)
         const data = await userModel.setRegister(req.body, passHash)
-        const profile = await profileModel.setProfile(data[0].id, data[0].username)
+        const profile = await profileModel.setProfile(data[0].id, data[0].username, img)
         return sendSuccess(res, 'User registered successfully', data)
     } catch (error) {
         return sendError(res, 'user cannot be registered', error)
