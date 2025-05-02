@@ -5,7 +5,7 @@ import TextareaWithButton from "../../shared/textArea";
 
 interface IContentGame {
     className?: string,
-    onClick?: any
+    onClick?: () => void
 }
 
 

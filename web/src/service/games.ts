@@ -3,10 +3,11 @@ import api from "./apiConfig";
 export const gamesPlay = async () => {
 
     try {
-        const token = localStorage.getItem('token');
+
+        const token = localStorage.getItem('token')
 
         if (!token) {
-            throw new Error("Token não encontrado.");
+            throw new Error("Token não encontrado.")
         }
 
         const response = await api.get('/playgames', {
@@ -15,9 +16,10 @@ export const gamesPlay = async () => {
             },
         });
 
-        return response;
+        return response
 
     } catch (error) {
-        return null;
+
+        return null
     }
 }

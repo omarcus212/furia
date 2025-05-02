@@ -1,12 +1,12 @@
 import api from "./apiConfig";
 
+const token = localStorage.getItem('token')
+
 export const setLikedPost = async (id: number | undefined) => {
     try {
 
-        const token = localStorage.getItem('token');
-
         if (!token) {
-            throw new Error("Token não encontrado.");
+            throw new Error("Token não encontrado.")
         }
 
         const response = await api.post(`/liked/${id}`, {}, {
@@ -15,9 +15,10 @@ export const setLikedPost = async (id: number | undefined) => {
             }
         });
 
-        return response.data;
+        return response.data
 
     } catch (error) {
-        return error;
+
+        return error
     }
 }

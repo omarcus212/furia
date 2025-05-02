@@ -1,12 +1,13 @@
 import api from "./apiConfig";
 
+const token = localStorage.getItem('token');
+
 export const myProfile = async () => {
 
     try {
-        const token = localStorage.getItem('token');
 
         if (!token) {
-            throw new Error("Token não encontrado.");
+            throw new Error("Token não encontrado.")
         }
 
         const response = await api.get('/myprofile', {
@@ -15,20 +16,20 @@ export const myProfile = async () => {
             }
         },);
 
-        return response.data;
+        return response.data
 
     } catch (error) {
-        return null;
+
+        return null
     }
 }
 
 export const getPostProfile = async (id: number | any) => {
 
     try {
-        const token = localStorage.getItem('token');
 
         if (!token) {
-            throw new Error("Token não encontrado.");
+            throw new Error("Token não encontrado.")
         }
 
         const response = await api.get(`/profile/post/${id}`, {
@@ -37,20 +38,50 @@ export const getPostProfile = async (id: number | any) => {
             }
         },);
 
-        return response.data;
+        return response.data
 
     } catch (error) {
-        return null;
+
+        return null
     }
+}
+
+export const updatePorfile = async (username: string, bio: string, photo: string) => {
+
+    try {
+
+        if (!token) {
+            throw new Error("Token não encontrado.")
+        }
+
+        const response = await api.put('/profile',
+            {
+                username: username,
+                bio: bio,
+                profile_photo_url: photo
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        return response.data
+
+    } catch (error) {
+
+        return error
+    }
+
 }
 
 export const getPostLikedProfile = async () => {
 
     try {
-        const token = localStorage.getItem('token');
 
         if (!token) {
-            throw new Error("Token não encontrado.");
+            throw new Error("Token não encontrado.")
         }
 
         const response = await api.get(`/profile/post/liked`, {
@@ -59,20 +90,20 @@ export const getPostLikedProfile = async () => {
             }
         },);
 
-        return response.data;
+        return response.data
 
     } catch (error) {
-        return null;
+
+        return null
     }
 }
 
 export const getPostCommentedProfile = async () => {
 
     try {
-        const token = localStorage.getItem('token');
 
         if (!token) {
-            throw new Error("Token não encontrado.");
+            throw new Error("Token não encontrado.")
         }
 
         const response = await api.get(`/profile/post/commented`, {
@@ -81,9 +112,11 @@ export const getPostCommentedProfile = async () => {
             }
         },);
 
-        return response.data;
+        return response.data
 
     } catch (error) {
-        return null;
+
+        return null
+
     }
 }

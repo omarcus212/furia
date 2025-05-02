@@ -3,10 +3,10 @@ import api from "./apiConfig";
 export const getPostsFeed = async () => {
 
     try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token')
 
         if (!token) {
-            throw new Error("Token não encontrado.");
+            throw new Error("Token não encontrado.")
         }
 
         const response = await api.get(`/feed`, {
@@ -15,9 +15,10 @@ export const getPostsFeed = async () => {
             }
         },);
 
-        return response.data;
+        return response.data
 
     } catch (error) {
-        return null;
+
+        return null
     }
 }

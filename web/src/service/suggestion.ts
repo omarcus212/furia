@@ -3,10 +3,10 @@ import api from "./apiConfig";
 export const setSuggestion = async (text: string) => {
 
     try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token')
 
         if (!token) {
-            throw new Error("Token não encontrado.");
+            throw new Error("Token não encontrado.")
         }
 
         const response = await api.post('/suggestion',
@@ -23,6 +23,8 @@ export const setSuggestion = async (text: string) => {
         return response;
 
     } catch (error) {
-        return null;
+
+        return null
+
     }
 }

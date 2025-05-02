@@ -11,7 +11,9 @@ import {useNavigate } from "react-router-dom";
 
 
 const PageLogin: React.FC = () => {
+
     const navigate = useNavigate();
+
     const [passwordVerification, setPasswordVerification] = useState(true);
 
     const [emailUserInput, setEmailUserInput] = useState('');
@@ -36,22 +38,26 @@ const PageLogin: React.FC = () => {
     const isValidationLogin = () => {
 
         if (!emailUserInput || !passwordUserInput) {
+
             Swal.fire({
                 icon: 'error',
                 title: 'Campos vazios...',
                 text: 'Preencha todos os campos para efetuar o login.',
                 preConfirm: CustomButton
             });
+            
             return false;
         }
 
         if (!passwordVerification){
+
              Swal.fire({
                 icon: 'error',
                 title: 'Senha invalida...',
                 text: 'A senha deve conter no minimo 5 Caractere',
                 preConfirm: CustomButton
             });
+
             return false;
         }
             
