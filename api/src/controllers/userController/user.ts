@@ -31,14 +31,13 @@ export const login = async (req: Request<UserLogin>, res: Response): Promise<Res
         const userPayload = {
             id: userID[0].id,
             email: userID[0].email,
-            username: userID[0].username,
-            password: userID[0].password,
+            username: userID[0].username
         };
 
         const token = jwt.sign(
             userPayload,
             key_jwt,
-            { expiresIn: '5d' }
+            { expiresIn: '7d' }
         );
 
         return sendSuccess(res, token)

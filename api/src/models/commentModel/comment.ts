@@ -3,7 +3,7 @@ import db from '../../db/dbConnect'
 
 export const getComment = (post_id: number): Promise<any> => {
     return new Promise((accept, reject) => {
-        db.query('SELECT c.*, p.username FROM comments AS c inner join profile_users AS p ON c.users_id = p.users_id WHERE c.id = ?', [post_id],
+        db.query('SELECT c.*, p.username FROM comments AS c inner join profile_users AS p ON c.users_id = p.users_id WHERE c.post_id = ?', [post_id],
             (error: any, result: any) => {
                 if (error) { reject(error) }
                 accept(result)

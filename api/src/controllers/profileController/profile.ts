@@ -20,7 +20,7 @@ export const getProfile = async (req: Request, res: Response) => {
 export const getMyProfile = async (req: Request, res: Response) => {
 
     try {
-        const data = await profileModel.getProfile(req.user?.username);
+        const data = await profileModel.getMyProfile(req.user?.id);
         return sendSuccess(res, 'Profile found!', data)
     } catch (error) {
         return sendError(res, 'Profile not found!', error)
@@ -56,6 +56,11 @@ export const updateProfile = async (req: Request<Profile>, res: Response) => {
 
     try {
         const ID = req.user?.id
+
+        if (!ID) {
+            return sendError(res, 'Unauthorized: No user ID found');
+        }
+
         const profileData = await profileModel.updateProfile(ID, req.body)
         return sendSuccess(res, 'Profile updated successfully!', profileData)
     } catch (error) {

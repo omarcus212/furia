@@ -47,6 +47,7 @@ export const deletePost = async (req: Request, res: Response) => {
         const profileData = await postModel.deletePost(ID, req.user?.id)
         return sendSuccess(res, 'Post deleted successfully!', profileData)
     } catch (error) {
+        console.log(error)
         return sendError(res, 'Unable to deleted this post', error)
     }
 }
