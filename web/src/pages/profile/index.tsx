@@ -52,6 +52,8 @@ const PageMyProfile: React.FC = () => {
 
   useEffect(() => {
 
+    setProfile(null)
+
     const getMyProfile = async () => {
 
       const res = await myProfile()
