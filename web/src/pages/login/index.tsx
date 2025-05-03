@@ -76,7 +76,9 @@ const PageLogin: React.FC = () => {
       const token = await login(emailUserInput, passwordUserInput);
 
       if (token) {
-        navigate('/home');
+
+        navigate('/home')
+
       } else {
         Swal.fire({
           icon: 'error',
