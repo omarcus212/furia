@@ -10,7 +10,7 @@ const PrivateRouter: React.FC = () => {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    navegate('/home');
+    navegate('/login');
   }
 
   return (
