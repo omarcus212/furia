@@ -9,7 +9,7 @@ const PublicRoute: React.FC = () => {
         <Routes>
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route index path={'/login'} element={<PageLogin />} />
-            <Route path={'/register'} element={<PageRegister />} />
+            <Route index path={'/register'} element={<PageRegister />} />
         </Routes>
     )
 };
