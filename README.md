@@ -91,7 +91,7 @@ Banco de Dados: As rotas da API estão prontas para serem integradas com o banco
 **Links Úteis**
 
 - **Documentação da API**: [Documentação da API FURIA no Postman](https://documenter.getpostman.com/view/21065723/2sB2j4hBym)
-- **Figma - Design da Web**: [Acesse o Figma aqui](https://www.figma.com/design/3URW5nRJnnNsOlQdU9hl21/Untitled?node-id=0-1&p=f&t=1Mv8ZtwTCU7zezrz-0)
-- **YouTube**: [Assista ao vídeo explicativo]()
+- **Figma - Design da Web**: [Acesse o Figma aqui](https://www.figma.com/proto/3URW5nRJnnNsOlQdU9hl21/Untitled?node-id=0-1&t=VjVyRk6GR1sXIJFn-1)
+- **YouTube**: [Assista ao vídeo explicativo](https://www.youtube.com/watch?v=nLcxDMqk9lo)
 
    
