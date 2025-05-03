@@ -6,7 +6,7 @@ interface NavLink {
 }
 
 const leftLinks: NavLink[] = [
-  { label: 'Meu Perfil', to: '/myprofile' },
+  { label: 'Meu Perfil', to: '/profile' },
   { label: 'Comunidade', to: '/home' },
   { label: 'Jogos', to: '/games' },
 ];

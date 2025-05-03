@@ -70,7 +70,7 @@ const Card: React.FC<Icard> = ({ post_id, username, text, edit_button_active, li
       navigate(`/logout`)
 
     } else if (resMyProfile.data[0].username === username) {
-      navigate(`/myprofile`)
+      navigate(`/profile`)
 
     } else {
       navigate(`/profile/${username}`)

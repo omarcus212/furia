@@ -2,9 +2,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PageLogin from "../pages/login";
 import PageRegister from "../pages/register";
 import PrivateRoute from "./PrivateRoute";
-import PageGames from "../pages/gamesTime";
-import PageMyProfile from "../pages/myProfile";
-import PageHome from "../pages/feed";
+import PageGames from "../pages/games.tsx/index.tsx";
+import PageMyProfile from "../pages/profile/index.tsx";
+import PageHome from "../pages/feed.tsx/index.tsx";
 import PageUserProfile from "../pages/userProfile";
 
 const Routing: React.FC = () => {
@@ -20,7 +20,7 @@ const Routing: React.FC = () => {
           <PageGames />
         </PrivateRoute>} />
 
-        <Route path='/myprofile' element={<PrivateRoute>
+        <Route path='/profile' element={<PrivateRoute>
           <PageMyProfile />
         </PrivateRoute>} />
 
@@ -31,7 +31,6 @@ const Routing: React.FC = () => {
         <Route path='/home' element={<PrivateRoute>
           <PageHome />
         </PrivateRoute>} />
-
       </Routes>
     </BrowserRouter>
 
