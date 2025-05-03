@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
 interface ILinkProps {
-  to: string,      
-  text: string,  
+  to: string,
+  text: string,
   className: string
 }
 

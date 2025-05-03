@@ -3,25 +3,31 @@ import ContainerProfile from "../../components/layout/containerProfile";
 import HeaderNavbar from "../../components/layout/headerNav";
 import CustomButton from "../../components/shared/button";
 import Card from "../../components/layout/postCard";
+import { Profile } from "../../interface/profile";
+import ModalProfileEdit from "../../components/layout/modalProfileEdit";
+import { IPost, IPostComment, PostComment } from "../../interface/post";
+import Swal from "sweetalert2";
+import ModalComment from "../../components/layout/modalComment";
+import { getCommentPost, setCommentPost } from "../../service/postService";
 import {
+  deletePostProfile,
   getPostCommentedProfile,
   getPostLikedProfile,
   getPostProfile,
   myProfile,
   updatePorfile
-} from "../../service/profile";
-import { Profile } from "../../interface/profile";
-import ModalProfileEdit from "../../components/layout/modalProfileEdit";
-import { IPost, IPostComment } from "../../interface/post";
-import Swal from "sweetalert2";
+} from "../../service/profileService";
+
 
 const imgman = 'https://firebasestorage.googleapis.com/v0/b/callofduty-ed1bf.appspot.com/o/agenteman.jpeg?alt=media&token=bc980976-bc4b-47cd-8402-89c8b62fd4dc'
 const imgwoman = 'https://firebasestorage.googleapis.com/v0/b/callofduty-ed1bf.appspot.com/o/agentewoman.jpg?alt=media&token=0fca91ea-9e7a-4bc7-b945-be4a958640a9'
 const notimg = 'https://firebasestorage.googleapis.com/v0/b/callofduty-ed1bf.appspot.com/o/nopicture.jpg?alt=media&token=48da8902-b944-4238-8c10-b440b6b1ba47'
 
+
+
 const PageMyProfile: React.FC = () => {
 
-  const [profile, setProfile] = useState<Profile>()
+  const [profile, setProfile] = useState<Profile | null>(null)
 
   const [status, setStatus] = useState("postes")
 
@@ -35,7 +41,13 @@ const PageMyProfile: React.FC = () => {
 
   const [postComment, setPostComment] = useState<IPostComment[]>([])
 
-  const [dataInputModal, setDataInputModal] = useState({ username: '', bio: '', photo: '' as 'man' | 'woman' })
+  const [dataInputModal, setDataInputModal] = useState({ username: '', bio: '', photo: '' as 'man' | 'woman' | 'null' })
+
+  const [openModalCommente, setopenModalCommente] = useState(false)
+
+  const [dataCommentPost, setDataCommentPost] = useState<PostComment[]>([])
+
+  const [dataCommentPostID, setDataCommentPostID] = useState(Number)
 
 
   useEffect(() => {
@@ -43,20 +55,25 @@ const PageMyProfile: React.FC = () => {
     const getMyProfile = async () => {
 
       const res = await myProfile()
-      const userProfile = res.data[0];
-      setProfile(userProfile);
+      if (res && Array.isArray(res.data) && res.data.length > 0) {
+        const userProfile = res.data[0];
+        setProfile(userProfile);
 
-      setDataInputModal({
-        username: userProfile.username || '',
-        bio: userProfile.bio || '',
-        photo: userProfile.photo || '',
-      });
+        setDataInputModal({
+          username: userProfile.username || '',
+          bio: userProfile.bio || '',
+          photo: userProfile.photo || '',
+        })
+
+      } else {
+
+        window.location.reload()
+      }
 
     };
     getMyProfile()
 
-  }, []);
-
+  }, [])
 
   useEffect(() => {
 
@@ -92,8 +109,7 @@ const PageMyProfile: React.FC = () => {
 
     }
 
-  }, [profile, status, openModal])
-
+  }, [profile, status, openModal, openModalCommente, dataCommentPost])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -104,19 +120,18 @@ const PageMyProfile: React.FC = () => {
       [name]: value,
     }));
 
-  };
+  }
 
-  const handleGenderSelect = (photo: 'man' | 'woman') => {
+  const handleGenderSelect = (photo: 'man' | 'woman' | 'null') => {
 
     setDataInputModal((prev) => ({
       ...prev,
       photo: photo,
     }));
 
-  };
+  }
 
-
-  const SendModal = async () => {
+  const handleSendModal = async () => {
     let username = dataInputModal.username
     let bio = dataInputModal.bio
     let photo = dataInputModal.photo
@@ -130,7 +145,20 @@ const PageMyProfile: React.FC = () => {
 
     if (username || bio || photo) {
 
-      const photoimg = photo == 'man' ? imgman : imgwoman
+      let photoimg = ''
+
+      if (photo == 'man') {
+
+        photoimg = imgman
+
+      } else if (photo == 'woman') {
+
+        photoimg = imgwoman
+
+      } else {
+
+        photoimg = notimg
+      }
 
       const res = await updatePorfile(username, bio, photoimg || notimg)
 
@@ -153,11 +181,54 @@ const PageMyProfile: React.FC = () => {
     }
   }
 
+  const handleGetCommentpost = async (post_id: number) => {
+
+    const res = await getCommentPost(post_id)
+    setDataCommentPostID(post_id)
+    setopenModalCommente(true)
+    setDataCommentPost(res.data)
+
+  }
+
+  const handleSetCommentpost = async (text: string) => {
+
+    const res = await setCommentPost(dataCommentPostID, text)
+
+    if (res.status == "success") {
+      const res = await getCommentPost(dataCommentPostID)
+      setDataCommentPost(res.data)
+    }
+  }
+
+  const handleDeletePost = async (post_id: number) => {
+
+    const res = await deletePostProfile(post_id)
+    console.log(res)
+
+    if (res.status == "success") {
+      window.location.reload()
+    }
+
+  }
+
+  const logout = () => {
+    localStorage.removeItem('token')
+
+    setDataInputModal({
+      username: '',
+      bio: '',
+      photo: 'null',
+    })
+
+    setProfile(null);
+
+    window.location.href = '/login';
+  };
 
   return (
     <section className="flex flex-col items-center w-full h-screen bg-black">
 
-      <HeaderNavbar />
+      <HeaderNavbar logout={logout} />
 
       {profile && (
         <ContainerProfile
@@ -192,13 +263,15 @@ const PageMyProfile: React.FC = () => {
                   <Card
                     key={post.post_id}
                     post_id={post.post_id}
-                    text={post.post_content}
-                    username={`${post.post_username}`}
+                    text={post.content}
+                    username={`${post.username}`}
                     edit_button_active={true}
                     commnent_button_active={true}
+                    onCommentClick={() => handleGetCommentpost(post.post_id)}
                     isLiked={isLiked}
                     like_button_active={true}
                     likedLen={post.total_likes}
+                    onClickDelete={() => handleDeletePost(post.post_id)}
                   />
                 )
               })
@@ -211,9 +284,9 @@ const PageMyProfile: React.FC = () => {
         {status === "comments" && (
           <>
             {Array.isArray(postComment) && postComment.length != 0 ? (
-              postComment.map((post) => (
+              postComment.map((post, index) => (
                 <Card
-                  key={post.post_id}
+                  key={index}
                   post_id={post.post_id}
                   text={post.post_content}
                   username={post.post_author_username}
@@ -233,9 +306,9 @@ const PageMyProfile: React.FC = () => {
         {status === "likes" && (
           <>
             {Array.isArray(postsLiked) && postsLiked.length != 0 ? (
-              postsLiked.map((post) => (
+              postsLiked.map((post, index) => (
                 <Card
-                  key={post.post_id}
+                  key={index}
                   text={post.post_content}
                   username={post.username}
                   edit_button_active={false}
@@ -259,8 +332,17 @@ const PageMyProfile: React.FC = () => {
           formData={dataInputModal}
           onClickCloseModel={() => { setIsModalOpen(false) }}
           onInputChange={handleInputChange}
-          onClickSend={SendModal}
+          onClickSend={handleSendModal}
           onSelectPhoto={handleGenderSelect}
+        />
+      )}
+
+
+      {openModalCommente && (
+        <ModalComment
+          comments={dataCommentPost}
+          onClose={() => setopenModalCommente(false)}
+          onSendComment={handleSetCommentpost}
         />
       )}
     </section>

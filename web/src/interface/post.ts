@@ -3,6 +3,7 @@ export interface IPost {
     post_id: number,
     username: string,
     post_username?: number,
+    content: string,
     post_content: string,
     total_likes: number
 };
@@ -17,4 +18,14 @@ export interface IPostComment {
     date_comment: string,
     post_author_username: string,
     post_author_user_id: number,
+}
+
+
+export interface PostComment {
+    id: number;
+    post_id: number;
+    users_id: number;
+    comment_user: string;
+    date_comment: string;
+    username: string;
 }

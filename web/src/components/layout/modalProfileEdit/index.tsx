@@ -1,5 +1,4 @@
-import { useState } from "react";
-import ImageView from "../../shared/image"
+import ImageView from "../../shared/imageView"
 import Input from "../../shared/input"
 import CustomButton from "../../shared/button";
 
@@ -10,7 +9,7 @@ interface ModalProfileEditProps {
     formData: {
         username: string,
         bio: string,
-        photo: 'man' | 'woman' | ''
+        photo: 'man' | 'woman' | 'null'
     }
     onSelectPhoto: (photo: 'man' | 'woman') => void,
     onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -20,15 +19,12 @@ const ModalProfileEdit: React.FC<ModalProfileEditProps> = ({ isOpen, formData, o
 
     const selected = formData.photo;
 
-    const [isModalOpen, setIsModalOpen] = useState(isOpen);
-
-
     return (
         <>
-            {isModalOpen && (
+            {isOpen && (
                 <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
                     <div className="bg-[#1E1E1E] border border-white p-4 rounded-md w-[90%] max-w-md">
-                        <button onClick={onClickCloseModel} className="flex text-white w-full justify-end items-start pb-4 cursor-pointer text-lg px-6 py-2 cursor-pointe">close</button>
+                        <button onClick={onClickCloseModel} className="flex text-white w-full justify-end items-start pb-4 cursor-pointer text-xl px-6 py-2 cursor-pointe hover:text-red-400">✕</button>
                         <div className="flex justify-between gap-4 mb-4">
                             <button
                                 className={`border-2 rounded cursor-pointer w-48 ${selected === 'man' ? 'border-white' : 'border-transparent'}`}
@@ -52,12 +48,11 @@ const ModalProfileEdit: React.FC<ModalProfileEditProps> = ({ isOpen, formData, o
                         </div>
                     </div>
 
-                    <div className="absolute bottom-10">
+                    <div className="absolute bottom-6">
                         <CustomButton text="Save"
                             onClick={onClickSend}
                             className="bg-white text-black px-6 py-2 cursor-pointer rounded font-semibold hover:bg-gray-200 transition"
                         />
-                        Enviar
                     </div>
                 </div>
             )}

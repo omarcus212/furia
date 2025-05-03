@@ -1,7 +1,7 @@
 interface IButtonProps {
-  onClick: any, 
+  onClick: any,
   text: string,
-  className?: string, 
+  className?: string,
 }
 
 const CustomButton: React.FC<IButtonProps> = ({ onClick, text, className }) => {

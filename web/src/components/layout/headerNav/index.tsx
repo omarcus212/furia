@@ -11,14 +11,14 @@ const leftLinks: NavLink[] = [
   { label: 'Jogos', to: '/games' },
 ];
 
-const rightLink: NavLink = { label: 'Sair', to: '/login' };
+interface HeaderNavbarProps {
+  logout: () => void;
+}
 
-const HeaderNavbar = () => {
+const HeaderNavbar: React.FC<HeaderNavbarProps> = ({ logout }) => {
 
-  const logout = () => {
-    localStorage.removeItem('token');
-  }
-  
+  const rightLink: NavLink = { label: 'Sair', to: '/login' };
+
   return (
     <nav className="bg-[#0D0D0D] w-full text-white px-6 py-4 flex justify-between items-center">
 

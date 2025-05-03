@@ -120,3 +120,47 @@ export const getPostCommentedProfile = async () => {
 
     }
 }
+
+export const deletePostProfile = async (id: number) => {
+    try {
+
+        if (!token) {
+            throw new Error("Token não encontrado.")
+        }
+
+        const response = await api.delete(`/profile/post/delete/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+        return response.data
+
+    } catch (error) {
+
+        return error
+    }
+}
+
+
+export const userProfile = async (username: any) => {
+
+    try {
+
+        if (!token) {
+            throw new Error("Token não encontrado.")
+        }
+
+        const response = await api.get(`/profile/${username}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        },);
+
+        return response.data
+
+    } catch (error) {
+
+        return null
+    }
+}
