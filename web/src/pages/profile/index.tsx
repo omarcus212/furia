@@ -316,7 +316,6 @@ const PageMyProfile: React.FC = () => {
                   like_button_active={true}
                   isLiked={true}
                   post_id={post.post_id}
-                  likedLen={post.total_likes}
                 />
               ))
             ) : (

@@ -131,7 +131,7 @@ const PageRegister: React.FC = () => {
           <Input label="Email:" type="email" placeholder="Digite seu email..." name="email" onChange={(text: any) => setEmailUserInput(text.target.value)} validate={() => ValidateEmail()} />
           <Input label="Password:" type="password" placeholder="Digite sua senha..." name="Password" onChange={(text: any) => setPasswordUserInput(text.target.value)} validate={() => ValidatePassword()} />
           <Input label="Repeat-password:" type="password" placeholder="Digite sua senha..." name="Password" onChange={(text: any) => setPasswordUserInputRepete(text.target.value)} validate={() => ValidatePassword()} />
-          <CustomLink text="Do you have login?" className="text-black hover:underline" to="/register" />
+          <CustomLink text="Do you have login?" className="text-black hover:underline" to="/login" onClick={() => navigate('/login')} />
           <CustomButton text="Send" className="bg-black w-[220px] h-10 cursor-pointer flex-wrap font-medium text-sm text-white py-2 px-4 rounded hover:bg-gray-800 focus:outline-none" onClick={onConfirmButtonPress} />
         </ContainerLogin>
       </Content>

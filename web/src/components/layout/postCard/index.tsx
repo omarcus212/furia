@@ -120,7 +120,7 @@ const Card: React.FC<Icard> = ({ post_id, username, text, edit_button_active, li
               onClick={toggleLike}
               className="w-6 h-6 cursor-pointer transition-transform hover:scale-110"
             />
-            <span className="text-white text-sm">{likeCount}</span>
+            <span className="text-white text-sm">{likeCount > 0 && likeCount}</span>
           </span>
         }
 
