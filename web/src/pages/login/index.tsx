@@ -112,7 +112,6 @@ const PageLogin: React.FC = () => {
           <Input label="Email:" type="email" placeholder="Digite seu email..." name="email" onChange={(text: any) => setEmailUserInput(text.target.value)} />
           <Input label="Password:" type="password" placeholder="Digite sua senha..." name="Password" onChange={(text: any) => setPasswordUserInput(text.target.value)} validate={() => ValidatePassword()} />
           <CustomLink text="I don't have a registration, Register?" className="text-black hover:underline" to="/register" onClick={routeRegister} />
-          <a href="/register" className="text-black hover:underline">Register?</a>
           <CustomButton text="Send" className="bg-black w-[231px] h-10 cursor-pointer flex-wrap font-medium text-sm text-white py-2 px-4 rounded hover:bg-gray-800 focus:outline-none" onClick={onConfirmButtonPress} />
         </ContainerLogin>
       </Content>

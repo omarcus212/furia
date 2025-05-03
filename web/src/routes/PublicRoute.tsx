@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import PageLogin from "../pages/login";
-import PageRegister from "../pages/register";
+import PageRegister from "../pages/register/index.tsx";
 
 const PublicRoute: React.FC = () => {
 
