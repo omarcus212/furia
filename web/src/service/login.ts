@@ -2,6 +2,8 @@ import api from "./apiConfig";
 
 export const login = async (email: string, password: string) => {
 
+    localStorage.removeItem('token')
+
     try {
         const response = await api.post('/login', {
             email,
