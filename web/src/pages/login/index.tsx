@@ -90,6 +90,9 @@ const PageLogin: React.FC = () => {
     }
   }
 
+  const routeRegister = () => {
+    navigate('/register')
+  }
 
   return (
     <section className="flex flex-wrap justify-center items-center w-full h-screen bg-black">
@@ -108,7 +111,7 @@ const PageLogin: React.FC = () => {
         <ContainerLogin className="bg-white justify-center items-center p-12 rounded-lg gap-4" width="500px" height="600px" text="Sing in">
           <Input label="Email:" type="email" placeholder="Digite seu email..." name="email" onChange={(text: any) => setEmailUserInput(text.target.value)} />
           <Input label="Password:" type="password" placeholder="Digite sua senha..." name="Password" onChange={(text: any) => setPasswordUserInput(text.target.value)} validate={() => ValidatePassword()} />
-          <CustomLink text="I don't have a registration, Register?" className="text-black hover:underline" to="/register" />
+          <CustomLink text="I don't have a registration, Register?" className="text-black hover:underline" to="/register" onClick={routeRegister} />
           <CustomButton text="Send" className="bg-black w-[231px] h-10 cursor-pointer flex-wrap font-medium text-sm text-white py-2 px-4 rounded hover:bg-gray-800 focus:outline-none" onClick={onConfirmButtonPress} />
         </ContainerLogin>
       </Content>
