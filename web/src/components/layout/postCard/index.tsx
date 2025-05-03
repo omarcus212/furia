@@ -27,29 +27,37 @@ interface Icard {
 
 const Card: React.FC<Icard> = ({ post_id, username, text, edit_button_active, like_button_active, commnent_button_active, isLiked, likedLen, youcommented, onCommentClick, onClickDelete, onPerfilClikc }) => {
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [id_post, setid_post] = useState(post_id)
+  const [showMenu, setShowMenu] = useState(false)
 
-  const [canEdit, setcanEdit] = useState(edit_button_active)
+  const [isLike, setIsLike] = useState(isLiked)
 
-  const [showMenu, setShowMenu] = useState(false);
+  const [likeCount, setLikeCount] = useState(likedLen || 0);
 
   const toggleMenu = () => { setShowMenu(!showMenu) }
 
-  const [showComments, setopenshowComments] = useState(false)
+  const showComments = false
+
+  useEffect(() => { setIsLike(isLiked) }, [isLiked, likedLen])
 
   const toggleLike = async () => {
 
     const likedId = await getPostLikedProfile()
-    const isLiked = likedId.data.some((likedPost: { post_id: number }) => likedPost.post_id === id_post);
+    const isLiked = likedId.data.some((likedPost: { post_id: number }) => likedPost.post_id === post_id);
 
-    if (isLiked) { return }
+    if (isLiked) {
 
-    if (!isLiked) {
+    } else {
 
-      await setLikedPost(id_post)
+      setIsLike(true)
+      const res = await setLikedPost(post_id)
 
+      if (res.status == "success") {
+        setIsLike(true)
+        setLikeCount((prev) => prev + 1);
+
+      } else { }
     }
 
   }
@@ -80,7 +88,7 @@ const Card: React.FC<Icard> = ({ post_id, username, text, edit_button_active, li
           />
         </a>
 
-        {canEdit && (
+        {edit_button_active && (
           <CustomButton
             text="..."
             onClick={toggleMenu}
@@ -108,11 +116,11 @@ const Card: React.FC<Icard> = ({ post_id, username, text, edit_button_active, li
         {like_button_active &&
           <span className="flex gap-2">
             <ImageView
-              imgSrc={isLiked ? "/icon/liked.svg" : "/icon/like.svg"}
+              imgSrc={isLike ? "/icon/liked.svg" : "/icon/like.svg"}
               onClick={toggleLike}
               className="w-6 h-6 cursor-pointer transition-transform hover:scale-110"
             />
-            <span className="text-white text-sm">{likedLen}</span>
+            <span className="text-white text-sm">{likeCount}</span>
           </span>
         }
 

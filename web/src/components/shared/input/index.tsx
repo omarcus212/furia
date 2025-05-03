@@ -20,6 +20,7 @@ const Input: React.FC<IInputProps> = ({ label, type, placeholder, name, value, c
 
         if (!validate) return
         setValid(validate(name))
+        isValid
     }
 
     return (

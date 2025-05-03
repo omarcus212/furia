@@ -14,7 +14,6 @@ import {
     getPostCommentedProfile,
     getPostLikedProfile,
     getPostProfile,
-    myProfile,
     updatePorfile,
     userProfile
 } from "../../service/profileService";
