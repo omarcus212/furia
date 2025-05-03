@@ -27,9 +27,10 @@ Este projeto é uma aplicação completa, incluindo o **backend** desenvolvido c
 
    No diretório do backend, execute o seguinte comando:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
+
 3. **Configure as variáveis de ambiente**:
 
 - DB_PORT=3306
@@ -40,9 +41,11 @@ Este projeto é uma aplicação completa, incluindo o **backend** desenvolvido c
 - JWT_SECRET=yourpassword
 
 4. **Execute a API**
+   
   ```bash
    npm start
    ```
+
  A API estará disponível em http://localhost:3000.
 
 ### **Frontend (Web)**
@@ -54,24 +57,25 @@ Este projeto é uma aplicação completa, incluindo o **backend** desenvolvido c
   
 2. **Instale as dependências do web**:
 
-   No diretório do backend, execute o seguinte comando:
+No diretório do backend, execute o seguinte comando:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
    
 3. **Configure as variáveis de ambiente**:
 
 - REACT_APP_BASE_URL_API=http://localhost:3000/api
 
 4. **Execute a API**
-  ```bash
-   npm start
-   ```
+
+```bash
+npm start
+```
 -produção 
-  ```bash
-   npm run product
-   ```
+```bash
+npm run product
+```
 
 **Observações Importantes**
 Autenticação com JWT: Se a API estiver configurada para usar autenticação via JWT, certifique-se de configurar corretamente a variável JWT_SECRET no seu arquivo .env.
