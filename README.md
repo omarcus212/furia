@@ -51,7 +51,8 @@ npm install
 ### **Frontend (Web)**
 
 1. **Acesse o site remoto**:
-- furia-plum.vercel.app/login
+2. 
+- **Web Furia**: [site web](https://furia-plum.vercel.app/login)
 
 - ou
   
