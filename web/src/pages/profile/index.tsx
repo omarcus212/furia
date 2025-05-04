@@ -52,10 +52,8 @@ const PageMyProfile: React.FC = () => {
 
   useEffect(() => {
 
-    setProfile(null)
-
     const getMyProfile = async () => {
-
+      setProfile(null)
       const res = await myProfile()
       if (res && Array.isArray(res.data) && res.data.length > 0) {
         const userProfile = res.data[0];

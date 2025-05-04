@@ -5,13 +5,11 @@ import CustomButton from "../../components/shared/button";
 import Card from "../../components/layout/postCard";
 import { Profile } from "../../interface/profile";
 import ModalProfileEdit from "../../components/layout/modalProfileEdit";
-import { IPost, IPostComment, PostComment } from "../../interface/post";
+import { IPost, PostComment } from "../../interface/post";
 import Swal from "sweetalert2";
 import ModalComment from "../../components/layout/modalComment";
 import { getCommentPost, setCommentPost } from "../../service/postService";
 import {
-    deletePostProfile,
-    getPostCommentedProfile,
     getPostLikedProfile,
     getPostProfile,
     updatePorfile,
@@ -38,11 +36,7 @@ const PageUserProfile: React.FC = () => {
 
     const [posts, setPosts] = useState<IPost[]>([])
 
-    const [postsLiked, setPostsLiked] = useState<IPost[] | null>()
-
     const [likedPostIds, setLikedPostIds] = useState<any>(new Set());
-
-    const [postComment, setPostComment] = useState<IPostComment[]>([])
 
     const [dataInputModal, setDataInputModal] = useState({ username: '', bio: '', photo: '' as 'man' | 'woman' | 'null' })
 
@@ -55,7 +49,7 @@ const PageUserProfile: React.FC = () => {
 
     useEffect(() => {
 
-        setPostsLiked(null)
+        setProfile(null)
 
         const getProfile = async () => {
 
@@ -94,24 +88,6 @@ const PageUserProfile: React.FC = () => {
 
             }
             profileMy()
-
-        } if (profile && status == "comments") {
-
-            const postCommented = async () => {
-                const res = await getPostCommentedProfile()
-                setPostComment(res.data)
-
-            }
-            postCommented()
-
-        } else if (profile && status == "likes") {
-
-            const postLiked = async () => {
-                const res = await getPostLikedProfile()
-                setPostsLiked(res.data)
-
-            }
-            postLiked()
 
         }
 
@@ -206,17 +182,6 @@ const PageUserProfile: React.FC = () => {
         }
     }
 
-    const handleDeletePost = async (post_id: number) => {
-
-        const res = await deletePostProfile(post_id)
-        console.log(res)
-
-        if (res.status == "success") {
-            window.location.reload()
-        }
-
-    }
-
     const logout = () => {
         localStorage.removeItem('token')
 
@@ -269,13 +234,12 @@ const PageUserProfile: React.FC = () => {
                                         post_id={post.post_id}
                                         text={post.content}
                                         username={`${post.username}`}
-                                        edit_button_active={true}
+                                        edit_button_active={false}
                                         commnent_button_active={true}
                                         onCommentClick={() => handleGetCommentpost(post.post_id)}
                                         isLiked={isLiked}
                                         like_button_active={true}
                                         likedLen={post.total_likes}
-                                        onClickDelete={() => handleDeletePost(post.post_id)}
                                     />
                                 )
                             })
@@ -285,49 +249,6 @@ const PageUserProfile: React.FC = () => {
                     </>
                 )}
 
-                {status === "comments" && (
-                    <>
-                        {Array.isArray(postComment) && postComment.length != 0 ? (
-                            postComment.map((post, index) => (
-                                <Card
-                                    key={index}
-                                    post_id={post.post_id}
-                                    text={post.post_content}
-                                    username={post.post_author_username}
-                                    edit_button_active={false}
-                                    commnent_button_active={false}
-                                    like_button_active={false}
-                                    youcommented={post.comment_text}
-                                />
-                            ))
-                        ) : (
-                            <p className="text-white">Nenhum post encontrado.</p>
-                        )}
-                    </>
-                )}
-
-
-                {status === "likes" && (
-                    <>
-                        {Array.isArray(postsLiked) && postsLiked.length != 0 ? (
-                            postsLiked.map((post, index) => (
-                                <Card
-                                    key={index}
-                                    text={post.post_content}
-                                    username={post.username}
-                                    edit_button_active={false}
-                                    commnent_button_active={false}
-                                    like_button_active={true}
-                                    isLiked={true}
-                                    post_id={post.post_id}
-                                    likedLen={post.total_likes}
-                                />
-                            ))
-                        ) : (
-                            <p className="text-white">Nenhum post encontrado.</p>
-                        )}
-                    </>
-                )}
             </div>
 
             {openModal && (

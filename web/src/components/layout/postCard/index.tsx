@@ -92,7 +92,7 @@ const Card: React.FC<Icard> = ({ post_id, username, text, edit_button_active, li
           <CustomButton
             text="..."
             onClick={toggleMenu}
-            className="text-white text-xl sm:text-2xl rounded-full px-3 py-1"
+            className="text-white text-xl sm:text-2xl rounded-full px-3 py-1 z-50"
           />
         )}
         {showMenu && (
