@@ -5,7 +5,7 @@ import TextTittle from "../../shared/text";
 import CustomButton from "../../shared/button";
 
 
-const ContainerProfile: React.FC<Profile> = ({ username, profile_photo_url, bio, onClickEdit }) => {
+const ContainerProfile: React.FC<Profile> = ({ username, profile_photo_url, bio, onClickEdit, edit }) => {
 
     const [showMenu, setShowMenu] = useState(false)
 
@@ -44,7 +44,7 @@ const ContainerProfile: React.FC<Profile> = ({ username, profile_photo_url, bio,
 
                 <div className="relative">
                     <CustomButton
-                        text="..."
+                        text={`${edit ? '...' : ''}`}
                         onClick={toggleMenu}
                         className="text-white text-2xl sm:text-3xl rounded-full hover:bg-white/20 px-3 py-1 transition"
                     />

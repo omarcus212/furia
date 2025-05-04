@@ -236,6 +236,7 @@ const PageMyProfile: React.FC = () => {
           username={`${profile?.username}`}
           profile_photo_url={profile?.profile_photo_url ? profile?.profile_photo_url : notimg}
           bio={profile?.bio ? profile.bio : "Este usuário ainda não escreveu uma bio."}
+          edit={true}
           onClickEdit={() => { setIsModalOpen(true) }}
         />
       )}

@@ -4,5 +4,6 @@ export interface Profile {
     username: string,
     bio?: string
     profile_photo_url?: string,
-    onClickEdit?: () => void
+    onClickEdit?: () => void,
+    edit?: boolean
 }
