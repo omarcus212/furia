@@ -1,26 +1,25 @@
-import React from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import PageGames from "../pages/games.tsx";
-import PageMyProfile from "../pages/profile";
-import PageUserProfile from "../pages/userProfile/index.tsx";
-import PageHome from "../pages/feed.tsx/index.tsx";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const PrivateRouter: React.FC = () => {
-  const navegate = useNavigate()
+interface PrivateRouteProps {
+  children: React.ReactNode;
+}
+
+const PrivateRouter: React.FC<PrivateRouteProps> = ({ children }) => {
+  const navigate = useNavigate()
   const token = localStorage.getItem("token");
 
+  useEffect(() => {
+    if (!token) {
+      navigate('/login')
+    }
+  }, [token, navigate]);
+
   if (!token) {
-    navegate('/login');
+    return null;
   }
 
-  return (
-    <Routes>
-      <Route path="/home" element={<PageHome />} />
-      <Route path="/games" element={<PageGames />} />
-      <Route path="/profile" element={<PageMyProfile />} />
-      <Route path="/profile/:username" element={<PageUserProfile />} />
-    </Routes>
-  )
+  return <>{children}</>;
 };
 
 export default PrivateRouter;

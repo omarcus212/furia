@@ -26,6 +26,10 @@ const ContentGame: React.FC<IContentGame> = ({ onClick, clearSignal }) => {
       <div className="flex flex-col w-full mt-16">
         <TextareaWithButton label="Sugestão" clearSignal={clearSignal} onChange={onClick} />
       </div>
+      <span className="flex w-full mt-4 mb-4 justify-end">
+        <p className="text-white pr-2">Suporte whatsapp?</p>
+        <a href="https://api.whatsapp.com/send/?phone=5511993404466&text&type=phone_number&app_absent=0" className="text-ml text-blue-400 cursor-pointer">aqui</a>
+      </span>
     </div>
   )
 }
