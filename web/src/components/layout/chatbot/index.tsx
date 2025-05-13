@@ -18,7 +18,6 @@ const ChatBotModal: React.FC<Ichatbot> = ({ onClose }) => {
     const options = [
         "Oi",
         "Qual seu nome?",
-        "CS2",
         "Quem é o capitão da FURIA no CS2?",
         "A FURIA tem time de Valorant?",
         "A FURIA tem time de Rainbow Six?",
@@ -28,6 +27,8 @@ const ChatBotModal: React.FC<Ichatbot> = ({ onClose }) => {
 
     const handleSelect = async (text: string) => {
         const res = await setChatBot(text)
+
+        setMessages((prev) => [...prev, { from: "user", text }]);
         setMessages((prev) => [...prev, { from: "bot", text: res.reply }])
     }
 
